@@ -3,6 +3,7 @@ import apiLocalStorage from "../lib/apiLocalStorage";
 const SIGNIN_REGUEST = "my-app/signin/SIGNIN_REGUEST";
 const SIGNIN_SUCCESS = "my-app/signin/SIGNIN_SUCCESS";
 const SIGNIN_FAIL = "my-app/signin/SIGNIN_FAIL";
+const SIGNIN_LOGOUT = "my-app/signin/SIGNIN_LOGOUT";
 
 export const constans = {
   SIGNIN_SUCCESS
@@ -25,6 +26,13 @@ function auth(login, passoword) {
   };
 }
 
+function logout() {
+  return dispatch => {
+    dispatch({type: SIGNIN_LOGOUT});
+    apiLocalStorage.setToken(undefined);
+  };
+}
+
 function initUser() {
   return dispatch => {
     const token = apiLocalStorage.getToken();
@@ -36,7 +44,8 @@ function initUser() {
 
 export const actionCreators = {
   auth,
-  initUser
+  initUser,
+  logout
 };
 
 // ----------------------------------------------------------------------------
@@ -55,6 +64,8 @@ export function reducer(state = initState, action) {
       return {...state, fetching: false, user: action.payload};
     case SIGNIN_FAIL:
       return {...state, fetching: false, error: action.payload};
+    case SIGNIN_LOGOUT:
+      return {...state, user: null};
     default:
       return state;
   }
