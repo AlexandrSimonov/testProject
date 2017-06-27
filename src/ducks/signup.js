@@ -1,52 +1,38 @@
+import {constans} from "./signin";
+import apiLocalStorage from "../lib/apiLocalStorage";
+
 const SIGNUP_REGUEST = "my-app/signin/SIGNUP_REGUEST";
 const SIGNUP_SUCCESS = "my-app/signin/SIGNUP_SUCCESS";
 const SIGNUP_FAIL = "my-app/signin/SIGNUP_FAIL";
 
 // ----------------------------------------------------------------------------
 // ACTION CREATORS
-function registration(name, address, phone, email, password) {
+function reg(name, address, phone, email, password) {
   return dispatch => {
     dispatch({type: SIGNUP_REGUEST});
 
-    /* Запрос на сервер
-    axios
-      .post(
-        "http://appwash.equiporojo.cl/api/signup",
-        {
-          name,
-          address,
-          phone,
-          email,
-          password
-        }
-      )
-      .then(data => {
-        dispatch({type: SIGNUP_SUCCESS, payload: data});
-      })
-      .catch(err => {
-        dispatch({type: SIGNUP_FAIL, payload: err});
-      });
-      */
-
     setTimeout(
       () => {
-        dispatch({type: SIGNUP_SUCCESS, payload: {token: "1234567890"}});
+        const token = "1234567890";
+        apiLocalStorage.setToken(token);
+
+        dispatch({type: SIGNUP_SUCCESS});
+        dispatch({type: constans.SIGNIN_SUCCESS, payload: {token}});
       },
-      4000
+      100
     );
   };
 }
 
 export const actionCreators = {
-  registration
+  reg
 };
 
 // ----------------------------------------------------------------------------
 // REDUCER
 const initState = {
   fetching: false,
-  error: "",
-  user: null
+  error: ""
 };
 
 export function reducer(state = initState, action) {
@@ -54,7 +40,7 @@ export function reducer(state = initState, action) {
     case SIGNUP_REGUEST:
       return {...state, fetching: true};
     case SIGNUP_SUCCESS:
-      return {...state, fetching: false, user: action.payload};
+      return {...state, fetching: false};
     case SIGNUP_FAIL:
       return {...state, fetching: false, error: action.payload};
     default:

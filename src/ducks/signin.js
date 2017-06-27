@@ -1,24 +1,42 @@
+import apiLocalStorage from "../lib/apiLocalStorage";
+
 const SIGNIN_REGUEST = "my-app/signin/SIGNIN_REGUEST";
 const SIGNIN_SUCCESS = "my-app/signin/SIGNIN_SUCCESS";
 const SIGNIN_FAIL = "my-app/signin/SIGNIN_FAIL";
 
+export const constans = {
+  SIGNIN_SUCCESS
+};
+
 // ----------------------------------------------------------------------------
 // ACTION CREATORS
-function auth(name, address, phone, email, password) {
+function auth(login, passoword) {
   return dispatch => {
     dispatch({type: SIGNIN_REGUEST});
 
     setTimeout(
       () => {
-        dispatch({type: SIGNIN_SUCCESS, payload: {token: "1234567890"}});
+        const token = "1234567890";
+        apiLocalStorage.setToken(token);
+        dispatch({type: SIGNIN_SUCCESS, payload: {token}});
       },
-      4000
+      200
     );
   };
 }
 
+function initUser() {
+  return dispatch => {
+    const token = apiLocalStorage.getToken();
+    if (token) {
+      dispatch({type: SIGNIN_SUCCESS, payload: {token}});
+    }
+  };
+}
+
 export const actionCreators = {
-  auth
+  auth,
+  initUser
 };
 
 // ----------------------------------------------------------------------------

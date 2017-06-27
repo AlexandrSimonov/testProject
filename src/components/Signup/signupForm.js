@@ -2,8 +2,18 @@ import React from "react";
 import {Field, reduxForm} from "redux-form";
 import {renderField, validate} from "../RenderField/RenderField";
 
+const validationForm = values => {
+  const errors = {};
+
+  if (values.password !== values.password_repeat) {
+    errors.password = "Password is not equals password repeat";
+  }
+
+  return errors;
+};
+
 const SignUpForm = props => {
-  const {handleSubmit, submitFunc, pristine, reset, submitting} = props;
+  const {handleSubmit, submitFunc} = props;
   return (
     <form onSubmit={handleSubmit(submitFunc)}>
       <div className="form-group">
@@ -22,10 +32,10 @@ const SignUpForm = props => {
         <div>
           <Field
             name="address"
-            component="input"
             type="text"
-            placeholder="Address"
-            className="form-control"
+            label="Address"
+            validate={[validate.required]}
+            component={renderField}
           />
         </div>
       </div>
@@ -34,10 +44,10 @@ const SignUpForm = props => {
         <div>
           <Field
             name="phone"
-            component="input"
             type="text"
-            placeholder="Phone"
-            className="form-control"
+            label="Phone"
+            validate={[validate.required, validate.phone]}
+            component={renderField}
           />
         </div>
       </div>
@@ -46,10 +56,10 @@ const SignUpForm = props => {
         <div>
           <Field
             name="email"
-            component="input"
             type="email"
-            placeholder="Email"
-            className="form-control"
+            label="Email"
+            validate={[validate.required, validate.email]}
+            component={renderField}
           />
         </div>
       </div>
@@ -58,10 +68,10 @@ const SignUpForm = props => {
         <div>
           <Field
             name="password"
-            component="input"
             type="password"
-            placeholder="Password"
-            className="form-control"
+            label="Password"
+            validate={[validate.required, validate.password]}
+            component={renderField}
           />
         </div>
       </div>
@@ -70,10 +80,10 @@ const SignUpForm = props => {
         <div>
           <Field
             name="password_repeat"
-            component="input"
             type="password"
-            placeholder="Password repeat"
-            className="form-control"
+            label="Password Repeat"
+            validate={[validate.password]}
+            component={renderField}
           />
         </div>
       </div>
@@ -88,5 +98,6 @@ const SignUpForm = props => {
 };
 
 export default reduxForm({
-  form: "signUpForm"
+  form: "signUpForm",
+  validate: validationForm
 })(SignUpForm);

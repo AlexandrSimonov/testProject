@@ -1,33 +1,41 @@
 import React, {Component} from "react";
-import axios from "axios";
-import qs from "qs";
-import SignUpForm from "./signup_form";
+import {bindActionCreators} from "redux";
+import {connect} from "react-redux";
+import {Redirect} from "react-router";
+import {actionCreators} from "../../ducks/signup";
+import SignUpForm from "./signupForm";
 
-export default class SignUp extends Component {
-  submit = (values, event) => {
-    console.log(values);
+class SignUp extends Component {
+  submit = values => {
+    this.props.reg(values);
   };
 
   render() {
-    axios
-      .post("http://appwash.equiporojo.cl/api/signup", qs.stringify({}), {
-        headers: {
-          "Content-type": "application/x-www-form-urlencoded"
-        }
-      })
-      .then(data => {
-        console.log(data);
-      })
-      .catch(err => {
-        console.log(err);
-      });
-    return (
-      <div className="row">
-        <div className="col-md-12">
-          <h1>Sign up form</h1>
-          <SignUpForm submitFunc={this.submit} />
+    if (this.props.user === null) {
+      return (
+        <div className="row">
+          <div className="col-md-12">
+            <h1>Sign up form</h1>
+            <SignUpForm submitFunc={this.submit} />
+          </div>
         </div>
-      </div>
-    );
+      );
+    } else {
+      return <Redirect to="/home" />;
+    }
   }
 }
+
+function mapStateToProps(state) {
+  return {
+    user: state.signin.user
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    reg: bindActionCreators(actionCreators.reg, dispatch)
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SignUp);
