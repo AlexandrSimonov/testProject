@@ -20,7 +20,7 @@ function auth(login, passoword) {
         apiLocalStorage.setToken(token);
         dispatch({type: SIGNIN_SUCCESS, payload: {token}});
       },
-      200
+      4000
     );
   };
 }
@@ -35,7 +35,7 @@ function reg(name, address, phone, email, password) {
         apiLocalStorage.setToken(token);
         dispatch({type: SIGNIN_SUCCESS, payload: {token}});
       },
-      100
+      4000
     );
   };
 }

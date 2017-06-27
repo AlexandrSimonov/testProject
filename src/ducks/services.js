@@ -27,7 +27,7 @@ function getList() {
 
         dispatch({type: SERVICES_SUCCESS, payload: {services}});
       },
-      200
+      2000
     );
   };
 }

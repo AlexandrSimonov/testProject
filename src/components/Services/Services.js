@@ -2,6 +2,7 @@ import React from "react";
 import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
 import {actionCreators} from "../../ducks/services";
+import Preload from "../Preload/Preload";
 
 class Services extends React.Component {
   componentWillMount() {
@@ -9,9 +10,13 @@ class Services extends React.Component {
   }
 
   render() {
+    if (this.props.servicesState.fetching) {
+      return <Preload />;
+    }
     return (
       <div>
         <h2>Сервисы</h2>
+        {this.props.servicesState.error && <div>{this.props.servicesState.error}</div>}
         <table className="table">
           <thead>
             <tr>
