@@ -1,5 +1,4 @@
-import {reducer as signup} from "./signup";
-import {reducer as signin} from "./signin";
+import {reducer as user} from "./user";
 import {reducer as services} from "./services";
 
-export default {signup, signin, services};
+export default {user, services};

@@ -4,7 +4,7 @@ import {connect} from "react-redux";
 
 class AuthRoute extends React.Component {
   render() {
-    if (this.props.user === null) {
+    if (this.props.token === null) {
       return <Redirect to="/" />;
     }
     return <Route name={this.props.name} path={this.props.path} component={this.props.component} />;
@@ -13,7 +13,7 @@ class AuthRoute extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    user: state.signin.user
+    token: state.user.token
   };
 }
 

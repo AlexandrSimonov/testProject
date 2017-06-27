@@ -1,7 +1,7 @@
 import React from "react";
 import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
-import {actionCreators} from "../../ducks/signin";
+import {actionCreators} from "../../ducks/user";
 
 class Logout extends React.Component {
   logout() {
@@ -9,7 +9,7 @@ class Logout extends React.Component {
   }
 
   render() {
-    if (this.props.signin.user) {
+    if (this.props.user.token) {
       return <button onClick={this.logout.bind(this)}>Выйти</button>;
     } else {
       return null;
@@ -19,7 +19,7 @@ class Logout extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    signin: state.signin
+    user: state.user
   };
 }
 

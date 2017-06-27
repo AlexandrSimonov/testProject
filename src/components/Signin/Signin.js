@@ -2,7 +2,7 @@ import React, {Component} from "react";
 import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
 import {Redirect} from "react-router";
-import {actionCreators} from "../../ducks/signin";
+import {actionCreators} from "../../ducks/user";
 import SignInForm from "./signinForm";
 
 class SignIn extends Component {
@@ -11,7 +11,7 @@ class SignIn extends Component {
   };
 
   render() {
-    if (this.props.signin.user === null) {
+    if (this.props.user.token === null) {
       return (
         <div className="row">
           <div className="col-md-12">
@@ -28,7 +28,7 @@ class SignIn extends Component {
 
 function mapStateToProps(state) {
   return {
-    signin: state.signin
+    user: state.user
   };
 }
 
